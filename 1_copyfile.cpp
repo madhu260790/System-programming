@@ -13,14 +13,17 @@ static const int kDefaultPermissions = 0644;
 // number equivalent of               "rw-r--r--"
 
 int main(int argc, char *argv[]) {
+    // Pass args
     if (argc!=3) {
         fprintf(stderr, "%s <source-file> <destination-file>.\n", argv[0]);
         return kWrongArgumentCount;
     }
+    // open files for read and write
     int fdin = open(argv[1], O_RDONLY);
     int fdout = open(argv[2], O_WRONLY | O_CREAT | O_EXCL, 0644);
     while (true) {
         char buffer[1024];
+        
         ssize_t bytesRead = read(fdin, buffer, sizeof(buffer));
         if(bytesRead==0) break;
         size_t bytesWritten = 0;
